@@ -48,6 +48,8 @@ The assistant supports various open-source code-focused LLMs, including:
 
 ## Installation
 
+> **Note**: This project is in early development. The following installation steps describe the planned setup process. Some files and features may not yet be available.
+
 ### 1. Clone the Repository
 
 ```bash
@@ -58,6 +60,7 @@ cd code_assistant
 ### 2. Install Dependencies
 
 ```bash
+# Dependencies will be specified in requirements.txt
 pip install -r requirements.txt
 ```
 
@@ -124,9 +127,10 @@ The code assistant is planned to integrate with popular IDEs:
 
 ## Configuration
 
-Edit `config.yaml` to customize the assistant:
+Example configuration format (config.yaml):
 
 ```yaml
+# This is a planned configuration format
 model:
   name: "Qwen2.5-Coder-7B-Instruct"
   path: "./models/qwen2.5-coder-7b"
