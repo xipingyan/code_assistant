@@ -65,28 +65,37 @@ pip install -r requirements.txt
 
 Download your preferred model (e.g., Qwen2.5-Coder-7B-Instruct):
 
+You can download models from [Hugging Face](https://huggingface.co/):
+
 ```bash
-# Instructions for downloading the model will be provided
-# The model files should be placed in the ./models directory
+# Using Hugging Face CLI
+huggingface-cli download Qwen/Qwen2.5-Coder-7B-Instruct --local-dir ./models/qwen2.5-coder-7b
+
+# Or use git-lfs
+git lfs install
+git clone https://huggingface.co/Qwen/Qwen2.5-Coder-7B-Instruct ./models/qwen2.5-coder-7b
 ```
 
 ### 4. Configure the Assistant
 
-Create a configuration file or modify the default settings:
+Configuration options will be provided through command-line arguments or a configuration file. Example configuration format:
 
 ```bash
-cp config.example.yaml config.yaml
-# Edit config.yaml with your preferences
+# Configuration file (config.yaml) format example
+# Create this file based on your preferences
 ```
 
 ## Usage
+
+> **Note**: The project is currently in development. Usage instructions will be updated as features are implemented.
 
 ### Basic Usage
 
 Start the code assistant:
 
 ```bash
-python main.py
+# Command will be available once implemented
+python code_assistant.py
 ```
 
 ### Interactive Mode
@@ -94,7 +103,7 @@ python main.py
 Launch the interactive console:
 
 ```bash
-python main.py --interactive
+python code_assistant.py --interactive
 ```
 
 ### API Mode
@@ -102,16 +111,16 @@ python main.py --interactive
 Run as a local API server:
 
 ```bash
-python main.py --server --port 8080
+python code_assistant.py --server --port 8080
 ```
 
 ### Integration with IDEs
 
-The code assistant can be integrated with popular IDEs:
+The code assistant is planned to integrate with popular IDEs:
 
-- **VS Code**: Install the companion extension
-- **PyCharm**: Use the plugin
-- **Neovim/Vim**: Configure LSP integration
+- **VS Code**: Extension support planned
+- **PyCharm**: Plugin support planned
+- **Neovim/Vim**: LSP integration planned
 
 ## Configuration
 
