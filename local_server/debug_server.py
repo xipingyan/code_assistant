@@ -35,6 +35,13 @@ function generatedFunctionByAI(data: any): string {{
     return `The generated result is: ${{result}}`;
 }}
 """
+    elif language == 'cpp' or language == 'c':
+        code_example = f"""
+// AI Generated Code based on prompt: '{prompt}'
+for (size_t i = 0; i < 20; i++) {{
+    // here is your code.
+}}
+"""
     else:
         # 默认返回一些通用文本
         code_example = f"// AI response for language '{language}' (Prompt: '{prompt}').\n// Hello from your OpenVINO Local Server Mock!\n// Time: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n"
@@ -63,11 +70,11 @@ class AIServerHandler(socketserver.BaseRequestHandler):
                 self.data += chunk
             
             if not self.data:
-                print("  Received empty data.")
+                print(f"  client[{client_name}]: Received empty data.")
                 return
             
             received_data = self.data.decode('utf-8').strip()
-            print(f"  Received data:\n  {received_data}")
+            print(f"  client[{client_name}]:Received data:\n  {received_data}")
             
             # 尝试解析 JSON
             try:
@@ -101,7 +108,8 @@ class AIServerHandler(socketserver.BaseRequestHandler):
             
             # 发送响应回客户端
             self.request.sendall(response)
-            print("  Response sent to clinet.")
+            self.finish()
+            print("  Response sent to client.")
             
         except Exception as e:
             print(f"An error occurred during handling: {e}")

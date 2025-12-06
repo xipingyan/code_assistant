@@ -24,7 +24,7 @@ def test_server_connection(prompt_text: str, request_type: str = "generate", lan
         "type": request_type,
         "prompt": prompt_text,
         "language": language,
-        "context_code": f"// This is placeholder code context for a {language} file." if request_type == "context_aware" else None
+        "context": f"// This is placeholder code context for a {language} file." if request_type == "context_aware" else None
     }
     
     # 将字典转换为 JSON 字符串
@@ -43,7 +43,8 @@ def test_server_connection(prompt_text: str, request_type: str = "generate", lan
             # 发送数据
             client_socket.sendall(message)
             print(f"➡️ Sent {len(message)} bytes. Request type: '{request_type}'")
-            print(f"   Prompt: '{prompt_text}'")
+            print(f"   Request type: '{request_type}'")
+            print(f"   Sent json: '{message}'.")
 
             client_socket.shutdown(socket.SHUT_WR)
 
@@ -68,8 +69,11 @@ def test_server_connection(prompt_text: str, request_type: str = "generate", lan
             try:
                 response_json = json.loads(full_response)
                 
-                print("Response JSON Status:", response_json.get('status', 'N/A'))
-                print("Response Message:", response_json.get('message', 'N/A'))
+                print("  Response JSON Status:", response_json.get('status', 'N/A'))
+                # print("Response Message:", response_json.get('message', 'N/A'))
+                print("  Recieved json:", response_json)
+                
+
                 print("\n--- GENERATED CODE ---\n")
                 print(response_json.get('code', 'Code field missing.'))
                 print("\n----------------------")
@@ -97,6 +101,6 @@ if __name__ == "__main__":
     # --- 测试用例 2: 上下文处理 (模拟选中代码) ---
     test_server_connection(
         prompt_text="Optimize the selected code for performance.",
-        request_type="context_aware",
-        language="typescript"
+        request_type="edit",
+        language="cpp"
     )
