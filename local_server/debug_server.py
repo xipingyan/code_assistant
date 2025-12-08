@@ -13,7 +13,7 @@ PORT = 8080
 # ----------------------------------------------------
 # 模拟代码生成的内容
 # ----------------------------------------------------
-def generate_mock_code(prompt: str, language: str) -> str:
+def generate_mock_code_generate(prompt: str, language: str) -> str:
     """根据接收到的 prompt 和语言生成一段模拟代码。"""
     
     if language == 'python':
@@ -41,6 +41,20 @@ function generatedFunctionByAI(data: any): string {{
 for (size_t i = 0; i < 20; i++) {{
     // here is your code.
 }}
+"""
+    else:
+        # 默认返回一些通用文本
+        code_example = f"// AI response for language '{language}' (Prompt: '{prompt}').\n// Hello from your OpenVINO Local Server Mock!\n// Time: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n"
+
+    return code_example.strip()
+
+def generate_mock_code_edit(prompt: str, language: str, original_codes: str) -> str:
+    """根据接收到的 prompt 和语言生成一段模拟代码。"""
+    
+    if language == 'cpp' or language == 'c':
+        code_example = f"""
+// AI Refactor Code based on prompt: '{prompt}'
+int r = 10 + 20;
 """
     else:
         # 默认返回一些通用文本
@@ -79,12 +93,15 @@ class AIServerHandler(socketserver.BaseRequestHandler):
             # 尝试解析 JSON
             try:
                 request_json = json.loads(received_data)
+                type = request_json.get('type', 'Default Prompt')
                 prompt = request_json.get('prompt', 'Default Prompt')
                 language = request_json.get('language', 'unknown')
+                original_codes = request_json.get('original_codes', 'unknown')
                 print(f"  Parsed Request:")
-                print(f"      Type: {request_json.get('type')}")
+                print(f"      Type: {type}")
                 print(f"      Language: {language}")
                 print(f"      Prompt: {prompt[:50]}...")
+                print(f"      original_codes: {original_codes[:50]}...")
 
             except json.JSONDecodeError:
                 prompt = "Invalid JSON"
@@ -92,7 +109,10 @@ class AIServerHandler(socketserver.BaseRequestHandler):
                 print("Received data is not valid JSON. Using default prompt.")
 
             # 模拟生成代码和处理时间
-            mock_code = generate_mock_code(prompt, language)
+            if type == 'generate':
+                mock_code = generate_mock_code_generate(prompt, language)
+            elif type == 'edit':
+                mock_code = generate_mock_code_edit(prompt, language, original_codes)
             
             # 模拟服务器处理延迟
             time.sleep(random.uniform(0.01, 0.1)) 

@@ -9,7 +9,7 @@ from datetime import datetime
 HOST = "127.0.0.1"
 PORT = 8080
 
-def test_server_connection(prompt_text: str, request_type: str = "generate", language: str = "python"):
+def test_server_connection(prompt_text: str, request_type: str = "generate", language: str = "python", original_codes: str = ""):
     """
     连接到本地服务器，发送一个请求，并打印响应。
     
@@ -24,7 +24,7 @@ def test_server_connection(prompt_text: str, request_type: str = "generate", lan
         "type": request_type,
         "prompt": prompt_text,
         "language": language,
-        "context": f"// This is placeholder code context for a {language} file." if request_type == "context_aware" else None
+        "original_codes": original_codes if request_type == "edit" else None
     }
     
     # 将字典转换为 JSON 字符串
@@ -102,5 +102,6 @@ if __name__ == "__main__":
     test_server_connection(
         prompt_text="Optimize the selected code for performance.",
         request_type="edit",
-        language="cpp"
+        language="cpp",
+        original_codes="int a = 10;\nint b = 30;int r = a + b;"
     )
